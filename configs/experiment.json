@@ -6,6 +6,7 @@
   "languages": ["en", "fr", "ar", "sw", "yo", "ha"],
   "configurations": ["C0", "C1", "C2"],
   "model_backends": 3,
+  "pilot_seeds": [0],
   "seeds": [0, 1, 2],
   "pilot_observations": 1944,
   "full_observations": 5832,

@@ -12,3 +12,6 @@ results/*.jsonl
 .env
 *.pem
 *.key
+configs/providers/aws.json
+configs/providers/azure.json
+configs/providers/open_weight.json

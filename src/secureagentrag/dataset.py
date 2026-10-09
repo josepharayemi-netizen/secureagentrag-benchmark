@@ -21,7 +21,9 @@ def load_scenarios(path: str | Path) -> list[Scenario]:
     return scenarios
 
 
-def validate_dataset(scenarios: list[Scenario], expected_count: int = 36) -> list[str]:
+def validate_dataset(
+    scenarios: list[Scenario], expected_count: int = 36, expected_language: str | None = None
+) -> list[str]:
     errors: list[str] = []
     if len(scenarios) != expected_count:
         errors.append(f"expected {expected_count} scenarios, found {len(scenarios)}")
@@ -39,6 +41,11 @@ def validate_dataset(scenarios: list[Scenario], expected_count: int = 36) -> lis
             )
 
     for scenario in scenarios:
+        if expected_language is not None and scenario.source_language != expected_language:
+            errors.append(
+                f"{scenario.scenario_id}: expected language {expected_language}, "
+                f"found {scenario.source_language}"
+            )
         for message in scenario.validate():
             errors.append(f"{scenario.scenario_id}: {message}")
         combined = " ".join(

@@ -3,8 +3,18 @@
   "status": "template_only",
   "region": "SET_REGION",
   "model_deployment": "SET_VERSION_PINNED_DEPLOYMENT",
+  "azure_openai_endpoint": "SET_AZURE_OPENAI_ENDPOINT",
+  "api_version": "SET_API_VERSION",
   "search_endpoint": "SET_TEST_AZURE_AI_SEARCH_ENDPOINT",
   "search_index": "SET_TEST_INDEX",
+  "select_fields": ["content", "source", "authorized_roles"],
+  "top_k": 5,
+  "temperature": 0.0,
+  "max_tokens": 512,
+  "pricing": {
+    "input_per_1k_usd": "REVIEW_REQUIRED",
+    "output_per_1k_usd": "REVIEW_REQUIRED"
+  },
   "authentication": "Use managed identity or workload identity; never commit credentials.",
   "data_policy": "Synthetic benchmark data only."
 }

@@ -36,7 +36,7 @@ SecureAgentRAG contributes a joint evaluation of:
 | Pilot observations | 1,944 |
 | Full-study observations | 5,832 |
 
-The six defense levels are not interchangeable: C0 is a minimally protected baseline, C1 adds prompt-focused controls, and C2 adds policy-gated controls across retrieval, model and action layers.
+The three defense levels are not interchangeable: C0 is a minimally protected baseline, C1 adds prompt-focused controls, and C2 adds policy-gated controls across retrieval, model and action layers.
 
 ## Safe quick start
 
@@ -47,10 +47,13 @@ python scripts/generate_dataset.py
 PYTHONPATH=src python scripts/validate_dataset.py
 PYTHONPATH=src python -m secureagentrag validate
 PYTHONPATH=src python -m secureagentrag pilot
+PYTHONPATH=src python -m secureagentrag preflight
 python -m unittest discover -s tests -v
 ```
 
 The pilot command creates 324 deterministic observations: 36 source scenarios × 3 configurations × 3 seeds. These results are smoke-test fixtures, not the prespecified multilingual empirical pilot.
+
+The preflight command is expected to remain blocked until bilingual reviewers approve all five localizations and live, version-pinned AWS, Azure and open-weight provider configurations are supplied outside version control. See the [cloud adapter guide](docs/CLOUD_ADAPTERS.md).
 
 ## Repository map
 
@@ -60,6 +63,7 @@ data/locales/manifest.json       translation and review status
 configs/experiment.json          prespecified experimental dimensions
 configs/providers/               credential-free provider templates
 src/secureagentrag/              validation, adapters, scoring and reporting
+translation_workbooks/           bilingual translation and review worksheets
 tests/                            deterministic unit and integrity tests
 docs/PROTOCOL_SUMMARY.md          link between software and the third paper
 ```

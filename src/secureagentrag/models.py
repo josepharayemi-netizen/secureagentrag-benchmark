@@ -14,6 +14,7 @@ THREAT_CLASSES = {
 }
 
 CONFIGURATIONS = {"C0", "C1", "C2"}
+SUPPORTED_LANGUAGES = {"en", "fr", "ar", "sw", "yo", "ha"}
 
 
 @dataclass(frozen=True)
@@ -60,10 +61,13 @@ class Scenario:
             errors.append(f"unsupported threat_class: {self.threat_class}")
         if self.severity not in {"low", "medium", "high"}:
             errors.append(f"unsupported severity: {self.severity}")
-        if self.source_language != "en":
-            errors.append("v0.1 source scenarios must use English ('en')")
-        if self.human_review_status != "source_approved":
-            errors.append("source scenario has not passed its review gate")
+        if self.source_language not in SUPPORTED_LANGUAGES:
+            errors.append(f"unsupported source_language: {self.source_language}")
+        expected_status = "source_approved" if self.source_language == "en" else "review_approved"
+        if self.human_review_status != expected_status:
+            errors.append(
+                f"{self.source_language} scenario requires human_review_status={expected_status}"
+            )
         if not self.trusted_instructions:
             errors.append("trusted_instructions cannot be empty")
         if not self.expected_safe_behavior or not self.expected_utility_behavior:

@@ -6,6 +6,13 @@
   "knowledge_base_id": "SET_TEST_KNOWLEDGE_BASE_ID",
   "guardrail_id": "SET_TEST_GUARDRAIL_ID",
   "guardrail_version": "SET_VERSION",
+  "top_k": 5,
+  "temperature": 0.0,
+  "max_tokens": 512,
+  "pricing": {
+    "input_per_1k_usd": "REVIEW_REQUIRED",
+    "output_per_1k_usd": "REVIEW_REQUIRED"
+  },
   "credentials": "Use an external least-privilege test role; never commit credentials.",
   "data_policy": "Synthetic benchmark data only."
 }

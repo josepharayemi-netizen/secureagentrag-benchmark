@@ -1,0 +1,17 @@
+{
+  "provider": "open_weight",
+  "status": "template_only",
+  "endpoint": "SET_OPENAI_COMPATIBLE_TEST_ENDPOINT",
+  "model_id": "SET_VERSION_PINNED_MODEL_ID",
+  "corpus_path": "SET_SYNTHETIC_CORPUS_JSONL_PATH",
+  "deployment_environment": "SET_ISOLATED_TEST_ENVIRONMENT",
+  "top_k": 5,
+  "temperature": 0.0,
+  "max_tokens": 512,
+  "pricing": {
+    "input_per_1k_usd": "REVIEW_REQUIRED",
+    "output_per_1k_usd": "REVIEW_REQUIRED"
+  },
+  "credentials": "Use a short-lived test token supplied outside the repository.",
+  "data_policy": "Synthetic benchmark data only."
+}

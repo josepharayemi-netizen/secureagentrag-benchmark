@@ -8,6 +8,7 @@ from .adapters import DeterministicMockAdapter
 from .dataset import load_scenarios, validate_dataset
 from .reporting import summarize, write_summary
 from .runner import run_benchmark
+from .preflight import empirical_pilot_preflight
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -23,11 +24,21 @@ def build_parser() -> argparse.ArgumentParser:
     pilot.add_argument("--summary", default="results/mock_pilot_summary.json")
     pilot.add_argument("--configurations", default="C0,C1,C2")
     pilot.add_argument("--seeds", default="0,1,2")
+
+    preflight = subparsers.add_parser(
+        "preflight", help="report blockers for the 1,944-observation empirical pilot"
+    )
+    preflight.add_argument("--root", default=".")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if args.command == "preflight":
+        report = empirical_pilot_preflight(Path(args.root))
+        print(json.dumps(report.as_dict(), indent=2))
+        return 0 if report.ready else 2
+
     scenarios = load_scenarios(Path(args.dataset))
     errors = validate_dataset(scenarios)
     if errors:
