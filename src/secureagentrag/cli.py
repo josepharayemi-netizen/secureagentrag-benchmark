@@ -10,6 +10,7 @@ from .reporting import summarize, write_summary
 from .runner import run_benchmark
 from .preflight import empirical_pilot_preflight
 from .review import audit_workbook
+from .packets import build_review_packet
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -36,6 +37,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     review_status.add_argument("--root", default=".")
     review_status.add_argument("--language", choices=["fr", "ar", "sw", "yo", "ha"])
+
+    review_packet = subparsers.add_parser(
+        "review-packet", help="create a privacy-safe handoff folder for bilingual review"
+    )
+    review_packet.add_argument("language", choices=["fr", "ar", "sw", "yo", "ha"])
+    review_packet.add_argument("--root", default=".")
+    review_packet.add_argument("--output", default="review_packets")
     return parser
 
 
@@ -57,6 +65,11 @@ def main(argv: list[str] | None = None) -> int:
         ]
         print(json.dumps([report.as_dict() for report in reports], indent=2))
         return 0 if all(report.ready for report in reports) else 2
+
+    if args.command == "review-packet":
+        packet = build_review_packet(Path(args.root), Path(args.output), args.language)
+        print(json.dumps(packet.as_dict(), indent=2))
+        return 0
 
     scenarios = load_scenarios(Path(args.dataset))
     errors = validate_dataset(scenarios)

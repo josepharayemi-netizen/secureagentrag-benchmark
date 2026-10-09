@@ -15,3 +15,4 @@ results/*.jsonl
 configs/providers/aws.json
 configs/providers/azure.json
 configs/providers/open_weight.json
+review_packets/

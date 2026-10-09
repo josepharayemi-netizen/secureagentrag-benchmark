@@ -42,5 +42,7 @@ jobs:
           secureagentrag review-status > /tmp/review-status.json
           status=$?
           test "$status" -eq 2
+      - name: Build a reviewer handoff packet
+        run: secureagentrag review-packet fr --output /tmp/review-packets
       - name: Run tests
         run: python -m unittest discover -s tests -v

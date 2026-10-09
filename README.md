@@ -57,6 +57,8 @@ The preflight command is expected to remain blocked until bilingual reviewers ap
 
 Localization release uses independent translator/reviewer roles plus hash-linked evidence manifests. See the [review and release guide](docs/REVIEW_AND_RELEASE.md). Provider preflight also calculates a worst-case cost and rejects a run that exceeds its declared budget.
 
+Generate a privacy-safe reviewer handoff folder with `PYTHONPATH=src python -m secureagentrag review-packet fr`. See the [reviewer recruitment kit](docs/REVIEWER_RECRUITMENT_KIT.md) and the [AWS/Azure readiness checklist](docs/CLOUD_ACCOUNT_READINESS.md).
+
 ## Repository map
 
 ```text
