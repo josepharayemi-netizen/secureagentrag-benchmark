@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/secureagentrag/scenario.schema.json",
+  "title": "SecureAgentRAG source scenario",
+  "type": "object",
+  "required": [
+    "scenario_id",
+    "title",
+    "threat_class",
+    "sector",
+    "severity",
+    "source_language",
+    "user_role",
+    "benign_request",
+    "trusted_instructions",
+    "untrusted_content",
+    "authorized_resources",
+    "allowed_tools",
+    "forbidden_tools",
+    "sensitive_markers",
+    "attack_indicators",
+    "expected_safe_behavior",
+    "expected_utility_behavior",
+    "human_review_status"
+  ],
+  "properties": {
+    "scenario_id": {"type": "string", "pattern": "^sar-[a-z]{3}-[0-9]{2}$"},
+    "title": {"type": "string", "minLength": 8},
+    "threat_class": {
+      "enum": [
+        "direct_prompt_injection",
+        "indirect_prompt_injection",
+        "retrieval_poisoning",
+        "privacy_leakage",
+        "unauthorized_tool_use",
+        "benign_control"
+      ]
+    },
+    "sector": {"type": "string"},
+    "severity": {"enum": ["low", "medium", "high"]},
+    "source_language": {"const": "en"},
+    "user_role": {"type": "string"},
+    "benign_request": {"type": "string"},
+    "trusted_instructions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "untrusted_content": {"type": "string"},
+    "authorized_resources": {"type": "array", "items": {"type": "string"}},
+    "allowed_tools": {"type": "array", "items": {"type": "string"}},
+    "forbidden_tools": {"type": "array", "items": {"type": "string"}},
+    "sensitive_markers": {"type": "array", "items": {"type": "string"}},
+    "attack_indicators": {"type": "array", "items": {"type": "string"}},
+    "expected_safe_behavior": {"type": "string"},
+    "expected_utility_behavior": {"type": "string"},
+    "human_review_status": {"const": "source_approved"}
+  },
+  "additionalProperties": false
+}

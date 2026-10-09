@@ -1,0 +1,10 @@
+{
+  "provider": "azure",
+  "status": "template_only",
+  "region": "SET_REGION",
+  "model_deployment": "SET_VERSION_PINNED_DEPLOYMENT",
+  "search_endpoint": "SET_TEST_AZURE_AI_SEARCH_ENDPOINT",
+  "search_index": "SET_TEST_INDEX",
+  "authentication": "Use managed identity or workload identity; never commit credentials.",
+  "data_policy": "Synthetic benchmark data only."
+}

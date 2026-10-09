@@ -1,0 +1,11 @@
+{
+  "provider": "aws",
+  "status": "template_only",
+  "region": "SET_REGION",
+  "model_id": "SET_VERSION_PINNED_MODEL_ID",
+  "knowledge_base_id": "SET_TEST_KNOWLEDGE_BASE_ID",
+  "guardrail_id": "SET_TEST_GUARDRAIL_ID",
+  "guardrail_version": "SET_VERSION",
+  "credentials": "Use an external least-privilege test role; never commit credentials.",
+  "data_policy": "Synthetic benchmark data only."
+}

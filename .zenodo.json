@@ -1,0 +1,33 @@
+{
+  "title": "SecureAgentRAG Benchmark",
+  "upload_type": "software",
+  "description": "A multilingual benchmark for prompt injection, privacy leakage and responsible behaviour in agentic retrieval-augmented generation.",
+  "creators": [
+    {
+      "name": "Arayemi, Joseph",
+      "affiliation": "GIIT Africa ICT Training Limited",
+      "orcid": "0009-0007-0776-7238"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "agentic RAG",
+    "prompt injection",
+    "multilingual AI safety",
+    "responsible AI",
+    "cloud security",
+    "benchmark"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.23048249",
+      "relation": "isSupplementTo",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.23132194",
+      "relation": "isSupplementTo",
+      "scheme": "doi"
+    }
+  ]
+}

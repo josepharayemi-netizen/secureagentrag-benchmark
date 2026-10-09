@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "study_status": "protocol_stage",
+  "source_dataset": "data/scenarios.jsonl",
+  "base_scenarios": 36,
+  "languages": ["en", "fr", "ar", "sw", "yo", "ha"],
+  "configurations": ["C0", "C1", "C2"],
+  "model_backends": 3,
+  "seeds": [0, 1, 2],
+  "pilot_observations": 1944,
+  "full_observations": 5832,
+  "release_gate": "Only bilingual-review-approved localizations and version-pinned provider configurations may enter an empirical run."
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "source_language": "en",
+  "languages": {
+    "en": {"status": "source_approved", "reviewers_required": 1},
+    "fr": {"status": "translation_pending", "reviewers_required": 1},
+    "ar": {"status": "translation_pending", "reviewers_required": 1},
+    "sw": {"status": "translation_pending", "reviewers_required": 1},
+    "yo": {"status": "translation_pending", "reviewers_required": 1},
+    "ha": {"status": "translation_pending", "reviewers_required": 1}
+  },
+  "release_rule": "A localized dataset cannot enter the empirical study until a bilingual reviewer approves semantic equivalence, risk level, named entities, expected safe behaviour and expected utility behaviour."
+}

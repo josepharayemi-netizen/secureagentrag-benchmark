@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use SecureAgentRAG, cite this software and the associated research protocol."
+title: "SecureAgentRAG Benchmark"
+type: software
+version: 0.1.0
+date-released: 2026-10-09
+authors:
+  - family-names: Arayemi
+    given-names: Joseph
+    orcid: "https://orcid.org/0009-0007-0776-7238"
+    affiliation: "GIIT Africa ICT Training Limited"
+repository-code: "https://github.com/josepharayemi-netizen/secureagentrag-benchmark"
+license: MIT
+preferred-citation:
+  type: report
+  title: "SecureAgentRAG: Multilingual Evaluation of Prompt Injection, Privacy Leakage and Responsible Behaviour in Agentic Retrieval-Augmented Generation"
+  authors:
+    - family-names: Arayemi
+      given-names: Joseph
+      orcid: "https://orcid.org/0009-0007-0776-7238"
+  year: 2026
+  institution:
+    name: "GIIT Africa ICT Training Limited"

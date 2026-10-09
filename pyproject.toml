@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "secureagentrag-benchmark"
+version = "0.1.0"
+description = "A multilingual benchmark for security, privacy and responsible behaviour in agentic RAG systems."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Joseph Arayemi", email = "yemi@giitafrica.com"}]
+keywords = [
+  "agentic-rag",
+  "prompt-injection",
+  "responsible-ai",
+  "multilingual-ai-safety",
+  "cloud-security",
+  "benchmark"
+]
+
+[project.scripts]
+secureagentrag = "secureagentrag.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
