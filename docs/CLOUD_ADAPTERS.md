@@ -9,6 +9,7 @@ The AWS and Azure adapters are real client integrations designed for dedicated b
 1. Create a dedicated test knowledge base containing synthetic documents and authorization metadata.
 2. Copy `configs/providers/aws.example.json` to `configs/providers/aws.json`.
 3. Replace every placeholder, record current regional prices, and set `status` to `configured` only after review.
+   Set a maximum run budget greater than or equal to the calculated worst-case estimate.
 4. Grant a least-privilege role only the retrieval, model-invocation, guardrail and logging actions required by the test.
 5. Install with `pip install -e '.[aws]'`.
 
@@ -19,6 +20,7 @@ The AWS and Azure adapters are real client integrations designed for dedicated b
 1. Create a dedicated Azure AI Search index with `content`, `source` and `authorized_roles` fields.
 2. Copy `configs/providers/azure.example.json` to `configs/providers/azure.json`.
 3. Replace every placeholder, pin the deployment and API version, record pricing, and set `status` to `configured` only after review.
+   Set a maximum run budget greater than or equal to the calculated worst-case estimate.
 4. Assign least-privilege roles to the test identity.
 5. Install with `pip install -e '.[azure]'`.
 
@@ -36,7 +38,7 @@ Run:
 PYTHONPATH=src python -m secureagentrag preflight
 ```
 
-Exit status `2` means the empirical pilot is blocked. The expected initial blockers are pending bilingual reviews and missing live provider configurations. Removing a blocker requires evidence; editing the report or status labels alone is not approval.
+Exit status `2` means the empirical pilot is blocked. The expected initial blockers are pending bilingual reviews and missing live provider configurations. Configuration checks reject embedded credentials, unresolved placeholders, invalid generation parameters, non-synthetic data policies and estimated costs above the declared maximum. Removing a blocker requires evidence; editing the report or status labels alone is not approval.
 
 After every gate passes, the prespecified pilot can be started with:
 

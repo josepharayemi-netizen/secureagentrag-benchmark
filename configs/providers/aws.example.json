@@ -13,6 +13,10 @@
     "input_per_1k_usd": "REVIEW_REQUIRED",
     "output_per_1k_usd": "REVIEW_REQUIRED"
   },
+  "budget": {
+    "max_input_tokens_per_observation": 4096,
+    "max_run_usd": "REVIEW_REQUIRED"
+  },
   "credentials": "Use an external least-privilege test role; never commit credentials.",
   "data_policy": "Synthetic benchmark data only."
 }

@@ -55,6 +55,8 @@ The pilot command creates 324 deterministic observations: 36 source scenarios ×
 
 The preflight command is expected to remain blocked until bilingual reviewers approve all five localizations and live, version-pinned AWS, Azure and open-weight provider configurations are supplied outside version control. See the [cloud adapter guide](docs/CLOUD_ADAPTERS.md).
 
+Localization release uses independent translator/reviewer roles plus hash-linked evidence manifests. See the [review and release guide](docs/REVIEW_AND_RELEASE.md). Provider preflight also calculates a worst-case cost and rejects a run that exceeds its declared budget.
+
 ## Repository map
 
 ```text
@@ -66,6 +68,7 @@ src/secureagentrag/              validation, adapters, scoring and reporting
 translation_workbooks/           bilingual translation and review worksheets
 tests/                            deterministic unit and integrity tests
 docs/PROTOCOL_SUMMARY.md          link between software and the third paper
+docs/REVIEW_AND_RELEASE.md        independent review and provenance procedure
 ```
 
 ## Evidence gates

@@ -5,7 +5,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .configuration import audit_provider_config
 from .dataset import load_scenarios, validate_dataset
+from .review import verify_review_evidence
 
 
 @dataclass(frozen=True)
@@ -60,18 +62,23 @@ def empirical_pilot_preflight(root: str | Path) -> PreflightReport:
                     blockers.append(
                         f"localized dataset {language} failed validation: {validation_errors[0]}"
                     )
+                evidence = project / "data" / "locales" / "evidence" / f"{language}.json"
+                evidence_errors = verify_review_evidence(evidence, workbook, localized)
+                blockers.extend(f"language {language}: {item}" for item in evidence_errors)
 
     for provider in ("aws", "azure", "open_weight"):
         config_path = project / "configs" / "providers" / f"{provider}.json"
         if not config_path.exists():
             blockers.append(f"live provider config missing: {config_path.relative_to(project)}")
             continue
-        config = _read_json(config_path)
-        if config.get("status") != "configured":
-            blockers.append(f"provider {provider} is not marked configured")
-        placeholders = _placeholder_paths(config)
-        if placeholders:
-            blockers.append(f"provider {provider} has unresolved fields: {', '.join(placeholders)}")
+        per_provider_observations = expected // int(experiment["model_backends"])
+        audit = audit_provider_config(config_path, provider, per_provider_observations)
+        blockers.extend(f"provider {provider}: {item}" for item in audit.blockers)
+        if audit.ready and audit.estimated_max_run_usd is not None:
+            checks.append(
+                f"provider {provider} maximum estimated run cost: "
+                f"${audit.estimated_max_run_usd:.4f}"
+            )
 
     if expected != int(experiment["pilot_observations"]):
         blockers.append(
@@ -89,16 +96,3 @@ def empirical_pilot_preflight(root: str | Path) -> PreflightReport:
 
 def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def _placeholder_paths(value: Any, path: str = "config") -> list[str]:
-    found: list[str] = []
-    if isinstance(value, dict):
-        for key, item in value.items():
-            found.extend(_placeholder_paths(item, f"{path}.{key}"))
-    elif isinstance(value, list):
-        for index, item in enumerate(value):
-            found.extend(_placeholder_paths(item, f"{path}[{index}]"))
-    elif isinstance(value, str) and (value.startswith("SET_") or value == "REVIEW_REQUIRED"):
-        found.append(path)
-    return found

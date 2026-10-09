@@ -9,6 +9,7 @@ from .dataset import load_scenarios, validate_dataset
 from .reporting import summarize, write_summary
 from .runner import run_benchmark
 from .preflight import empirical_pilot_preflight
+from .review import audit_workbook
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -29,6 +30,12 @@ def build_parser() -> argparse.ArgumentParser:
         "preflight", help="report blockers for the 1,944-observation empirical pilot"
     )
     preflight.add_argument("--root", default=".")
+
+    review_status = subparsers.add_parser(
+        "review-status", help="audit human translation workbooks without releasing them"
+    )
+    review_status.add_argument("--root", default=".")
+    review_status.add_argument("--language", choices=["fr", "ar", "sw", "yo", "ha"])
     return parser
 
 
@@ -38,6 +45,18 @@ def main(argv: list[str] | None = None) -> int:
         report = empirical_pilot_preflight(Path(args.root))
         print(json.dumps(report.as_dict(), indent=2))
         return 0 if report.ready else 2
+
+    if args.command == "review-status":
+        languages = [args.language] if args.language else ["fr", "ar", "sw", "yo", "ha"]
+        reports = [
+            audit_workbook(
+                Path(args.root) / "translation_workbooks" / f"secureagentrag_{language}.csv",
+                language,
+            )
+            for language in languages
+        ]
+        print(json.dumps([report.as_dict() for report in reports], indent=2))
+        return 0 if all(report.ready for report in reports) else 2
 
     scenarios = load_scenarios(Path(args.dataset))
     errors = validate_dataset(scenarios)

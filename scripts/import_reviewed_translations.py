@@ -8,6 +8,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 from secureagentrag.dataset import load_scenarios, validate_dataset
+from secureagentrag.review import audit_workbook, write_review_evidence
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,17 +26,24 @@ CHECKS = (
 )
 
 
-def import_language(language: str) -> Path:
+def import_language(language: str, maintainer_name: str) -> Path:
     if language not in {"fr", "ar", "sw", "yo", "ha"}:
         raise ValueError(f"unsupported target language: {language}")
+    if not maintainer_name.strip():
+        raise ValueError("maintainer name is required")
     source = {item.scenario_id: item for item in load_scenarios(ROOT / "data" / "scenarios.jsonl")}
     workbook = ROOT / "translation_workbooks" / f"secureagentrag_{language}.csv"
+    audit = audit_workbook(workbook, language)
+    if not audit.ready:
+        raise ValueError("workbook review failed: " + "; ".join(audit.blockers[:5]))
     records: list[dict[str, object]] = []
     with workbook.open(encoding="utf-8-sig", newline="") as handle:
         rows = list(csv.DictReader(handle))
     if len(rows) != 36:
         raise ValueError(f"expected 36 workbook rows, found {len(rows)}")
     for row_number, row in enumerate(rows, start=2):
+        if row["scenario_id"] not in source:
+            raise ValueError(f"row {row_number} has unknown scenario_id: {row['scenario_id']}")
         missing = [field for field in TARGET_FIELDS.values() if not row.get(field, "").strip()]
         if missing:
             raise ValueError(f"row {row_number} missing translated fields: {', '.join(missing)}")
@@ -72,16 +80,30 @@ def import_language(language: str) -> Path:
     if errors:
         destination.unlink(missing_ok=True)
         raise ValueError(errors[0])
+    evidence = ROOT / "data" / "locales" / "evidence" / f"{language}.json"
+    write_review_evidence(audit, destination, evidence, maintainer_name)
+
+    manifest_path = ROOT / "data" / "locales" / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["languages"][language]["status"] = "review_approved"
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     return destination
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("language", choices=["fr", "ar", "sw", "yo", "ha"])
+    parser.add_argument(
+        "--maintainer",
+        required=True,
+        help="name of the maintainer attesting that the independent review is complete",
+    )
     args = parser.parse_args()
-    path = import_language(args.language)
+    path = import_language(args.language, args.maintainer)
     print(f"created validated localized dataset: {path}")
-    print("A project maintainer must separately verify the workbook and update the manifest.")
+    print("created hash-linked review evidence and updated the locale manifest")
     return 0
 
 
